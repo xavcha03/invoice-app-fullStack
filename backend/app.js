@@ -1,13 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
+require('dotenv').config();
+console.log(process.env.MONGO_ADDRESS);
 
 //Import routes
 const invoiceRoutes = require('./routes/invoice');
 
 const app = express();
 
+
 //Connect to mongo DB
-mongoose.connect('mongodb+srv://xav03:uAZWVbDBsxgpnbCn@cluster0.q9e8igt.mongodb.net/test',
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_ADDRESS}`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
