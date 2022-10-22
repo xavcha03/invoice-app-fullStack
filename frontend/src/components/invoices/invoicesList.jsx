@@ -2,47 +2,75 @@ import { useEffect } from "react";
 import axios from "axios";
 import "./invoicesList.css"
 import { useState } from "react";
+import InvoiceListHeader from "./invoiceListHeader";
 
 const baseUrl = "http://localhost:3000/invoices";
 
-function InvoicesList_Item(){
+function InvoicesList_Item({ invoice }) {
+    invoice = invoice.invoice;
+
     return (
-        
-        <div className="invoicesList_item">
-            <p>#RT3080</p>
-            <p>Due 19 Aug 2021</p>
-            <p>Jensen Huang</p>
-            <p>1800.9 €</p>
-            <p>paid</p>
+
+        <div className="invoicesList_item" id={invoice._id}>
+            <p>{invoice.id}</p>
+            <p>{invoice.paymentDue}</p>
+            <p className="">{invoice.clientName}</p>
+            <p className="invoicesList_item_price">{invoice.total} €</p>
+            <p className={`invoicesList_item_status invoicesList_status_item--${invoice.status}`}>{invoice.status}</p>
         </div>
-        
+
     )
 }
 
-function InvoicesList(){
+function InvoicesList() {
+    //State => invoice list
     const [invoices, setInvoices] = useState([])
+    //State => selectStatus
+    const [selectedStatus, setSelectedStatus] = useState("all");
     //Quand le composant est monté
-    useEffect(()=>{
+    useEffect(() => {
         //Recevoir les factures de l'API
-        if(invoices==null){
-            axios.get(baseUrl).then((response)=>{
-                let data = JSON.stringify(response.data.invoices);
-                setInvoices(data);
-            });
+
+        axios.get(baseUrl).then((response) => {
+            let datas = response.data
+            setInvoices(datas.invoices);
+        }).catch(errors => console.log(errors));
+
+
+
+    }, [])
+
+    //Filter status System
+    let invoiceList = invoices.filter((invoice) => {
+        switch (selectedStatus) {
+            case "paid":
+                return invoice.invoice.status == "paid";
+                break;
+            case "pending":
+                return invoice.invoice.status == "pending";
+                break;
+            case "draft":
+                return invoice.invoice.status == "draft";
+                break;
+
+            default:
+                return invoice.invoice;
+                break;
+
         }
-        
-        
-    })
+    });
+
+    function handleSelectStatusChange(e) {
+        setSelectedStatus(e.target.value);
+    }
+
 
     return (
         <div className="invoicesList">
-            <h1>Invoices</h1>
-            {
-              invoices.map((invoice)=>{
-            <InvoicesList_Item />
-
-              })
-            }
+            <InvoiceListHeader handleSelectStatusChange={handleSelectStatusChange.bind(this)} selectedStatus={selectedStatus} invoices={invoiceList} />
+            {invoiceList.map((invoice) => {
+                return <InvoicesList_Item invoice={invoice} id={invoice.invoice._id} />
+            })}
         </div>
     )
 }
