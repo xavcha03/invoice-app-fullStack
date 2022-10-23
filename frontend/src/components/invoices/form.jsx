@@ -1,4 +1,5 @@
 import './form.css';
+import axios from 'axios';
 
 
 function Form({ handleActivateForm, formIsActive }) {
@@ -7,25 +8,7 @@ function Form({ handleActivateForm, formIsActive }) {
         e.preventDefault();
         let datas = {
             "id": "",
-            "createdAt": "2022-08-21",
             "paymentDue": "2022-09-20",
-            "description": "tempalte wp",
-            "paymentTerms": 20,
-            "clientName": "Enora Charles",
-            "clientEmail": "Enora@mail.com",
-            "status": "fraft",
-            "senderAddress": {
-                "street": "19 Union Terrace",
-                "city": "London",
-                "postCode": "E1 3EZ",
-                "country": "United Kingdom"
-            },
-            "clientAddress": {
-                "street": "84 Church Way",
-                "city": "Bradford",
-                "postCode": "BD1 9PB",
-                "country": "United Kingdom"
-            },
             "items": [
                 {
                     "name": "Banner Design",
@@ -40,11 +23,40 @@ function Form({ handleActivateForm, formIsActive }) {
                     "total": 400.00
                 }
             ],
-            "total": 5658.65
-        }
-        datas.description = e.target.invoiceDescription.value;
-        console.log(datas);
 
+        }
+        datas = {
+            description: e.target.invoiceDescription.value,
+            createdAt: e.target.invoiceDate.value,
+            paymentTerms: e.target.invoiceTerm.value,
+            clientName: e.target.clientName.value,
+            clientEmail: e.target.clientEmail.value,
+            status: "pending",
+            senderAddress: {
+                street: e.target.adressStreet.value,
+                city: e.target.adressCity.value,
+                postCode: e.target.adressPostCode.value,
+                country: e.target.adressCountry.value
+            },
+            clientAddress: {
+                street: e.target.clientStreet.value,
+                city: e.target.clientStreet.value,
+                postCode: e.target.clientStreet.value,
+                country: e.target.clientStreet.value
+            },
+            total: 5000
+        }
+
+
+        const baseUrl = "http://localhost:3000/invoices"
+
+        axios
+            .post(baseUrl, datas)
+            .then((response) => {
+                console.log("envois au serveur ok", response);
+                //Reactualisation
+            })
+            .catch((error) => console.log("erreur : ", erreur));
     }
 
     return (
@@ -68,8 +80,8 @@ function Form({ handleActivateForm, formIsActive }) {
                         <input id="adressPostCode" type="text" name="adressPostCode" />
                     </div>
                     <div class="inputGroup">
-                        <label htmlFor="adressCity">Country</label>
-                        <input id="adressCity" type="text" name="adressCity" />
+                        <label htmlFor="adressCountry">Country</label>
+                        <input id="adressCountry" type="text" name="adressCountry" />
                     </div>
                 </fieldset>
 
@@ -111,9 +123,9 @@ function Form({ handleActivateForm, formIsActive }) {
                     </div>
                     <div class="inputGroup inputGroup--half">
                         <label htmlFor="invoiceTerm ">Payement Terms</label>
-                        <select>
-                            <option>Net 30 Days</option>
-                            <option>7 Days</option>
+                        <select id="invoiceTerm" name="invoiceTerm">
+                            <option value="30" selected>Net 30 Days</option>
+                            <option value="7">7 Days</option>
                         </select>
                     </div>
                     <div class="inputGroup inputGroup--full">
