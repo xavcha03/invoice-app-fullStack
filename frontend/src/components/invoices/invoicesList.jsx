@@ -22,7 +22,7 @@ function InvoicesList_Item({ invoice }) {
     )
 }
 
-function InvoicesList() {
+function InvoicesList({ handleActivateForm }) {
     //State => invoice list
     const [invoices, setInvoices] = useState([])
     //State => selectStatus
@@ -67,7 +67,7 @@ function InvoicesList() {
 
     return (
         <div className="invoicesList">
-            <InvoiceListHeader handleSelectStatusChange={handleSelectStatusChange.bind(this)} selectedStatus={selectedStatus} invoices={invoiceList} />
+            <InvoiceListHeader handleActivateForm={handleActivateForm} handleSelectStatusChange={handleSelectStatusChange.bind(this)} selectedStatus={selectedStatus} invoices={invoiceList} />
             {invoiceList.map((invoice) => {
                 return <InvoicesList_Item invoice={invoice} id={invoice.invoice._id} />
             })}

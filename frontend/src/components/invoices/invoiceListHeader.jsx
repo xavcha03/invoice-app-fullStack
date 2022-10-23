@@ -1,6 +1,6 @@
 import './invoiceListHeader.css'
 
-function InvoiceListHeader({ handleSelectStatusChange, selectedStatus, invoices }) {
+function InvoiceListHeader({ handleActivateForm, handleSelectStatusChange, selectedStatus, invoices }) {
     console.log(selectedStatus);
     let nbrInvoices = invoices.length;
     return (
@@ -19,7 +19,7 @@ function InvoiceListHeader({ handleSelectStatusChange, selectedStatus, invoices 
                         <option value="draft" >draft</option>
                     </select>
                 </label>
-                <button><span>+</span>New invoice</button>
+                <button onClick={handleActivateForm}><span>+</span>New invoice</button>
             </div>
         </header>
     )

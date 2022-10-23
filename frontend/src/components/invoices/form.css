@@ -1,0 +1,74 @@
+.formLayer {
+	background-color: rgba(0, 0, 0, 0.297);
+	width: 100%;
+	height: 100vh;
+	position: fixed;
+	visibility: hidden;
+}
+
+.invoiceForm {
+	position: absolute;
+
+	width: 719px;
+	height: 100vh;
+
+	padding: 56px 56px 56px 159px;
+
+	border-radius: 20px 20px 0 0;
+
+	background-color: #f2f2f2;
+
+	transform: translateX(-100%);
+
+	color: #7e88c3;
+}
+
+h3 {
+	font-weight: 700;
+	font-size: 16px;
+	color: #7c5dfa;
+}
+.formLayer--actif {
+	visibility: visible;
+}
+
+.formLayer--actif .invoiceForm {
+	transition: 1s;
+	transform: translateX(0);
+}
+
+fieldset {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	border: none;
+	margin: 24px 0 48px 0;
+}
+
+input,
+select {
+	padding: 16px 20px;
+	border: 2px solid #dfe3fa;
+	border-radius: 4px;
+	background-color: #f2f2f2;
+	font-weight: 700;
+	width: 150px;
+}
+
+.inputGroup {
+	display: flex;
+	flex-direction: column;
+}
+.inputGroup--full {
+	width: 100%;
+}
+
+.inputGroup--full input {
+	width: 100%;
+}
+.inputGroup--half {
+	width: 50%;
+}
+.inputGroup--half input {
+	width: 50%;
+}
