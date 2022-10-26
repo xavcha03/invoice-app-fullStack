@@ -22,7 +22,7 @@ function InvoicesList_Item({ invoice }) {
     )
 }
 
-function InvoicesList({ handleActivateForm }) {
+function InvoicesList({ isUpdate, setIsupdate, handleActivateForm }) {
     //State => invoice list
     const [invoices, setInvoices] = useState([])
     //State => selectStatus
@@ -34,11 +34,12 @@ function InvoicesList({ handleActivateForm }) {
         axios.get(baseUrl).then((response) => {
             let datas = response.data
             setInvoices(datas.invoices);
+            setIsupdate(true);
         }).catch(errors => console.log(errors));
 
 
 
-    }, [])
+    }, [isUpdate])
 
     //Filter status System
     let invoiceList = invoices.filter((invoice) => {

@@ -2,7 +2,7 @@ import './form.css';
 import axios from 'axios';
 
 
-function Form({ handleActivateForm, formIsActive }) {
+function Form({ isUpdate, setIsupdate, handleActivateForm, formIsActive }) {
 
     function handleSubmitForm(e) {
         e.preventDefault();
@@ -55,6 +55,7 @@ function Form({ handleActivateForm, formIsActive }) {
             .then((response) => {
                 console.log("envois au serveur ok", response);
                 //Reactualisation
+                setIsupdate(false);
             })
             .catch((error) => console.log("erreur : ", erreur));
     }

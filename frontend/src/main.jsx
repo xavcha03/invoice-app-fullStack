@@ -12,6 +12,7 @@ import { useState } from 'react';
 
 function Main() {
   const [formIsActive, setFormIsActive] = useState(false);
+  const [isUpdate, setIsupdate] = useState(false);
 
   function handleActivateForm(e) {
     e.preventDefault();
@@ -23,8 +24,8 @@ function Main() {
   return (
     <main>
       <Navigation />
-      <InvoicesList handleActivateForm={handleActivateForm.bind(this)} />
-      <Form handleActivateForm={handleActivateForm.bind(this)} formIsActive={formIsActive} />
+      <InvoicesList isUpdate={isUpdate} setIsupdate={setIsupdate} handleActivateForm={handleActivateForm.bind(this)} />
+      <Form isUpdate={isUpdate} setIsupdate={setIsupdate} handleActivateForm={handleActivateForm.bind(this)} formIsActive={formIsActive} />
     </main>
   )
 }
