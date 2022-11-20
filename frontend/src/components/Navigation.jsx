@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { AngleDown } from "@styled-icons/fa-solid/AngleDown";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { StatusListContext } from "../contexts/statusContext";
+import CheckBox from "./CheckBox";
 
 function Navigation() {
 	const [statusBtnOpen, setStatusBtnOpen] = useState(true);
@@ -21,10 +23,10 @@ function Navigation() {
 				<Description>There are 7 total invoices</Description>
 			</Wrapper>
 			<Wrapper>
-				<StatusBtn /**onMouseLeave={handleStatusOpenQuit}**/>
-					<button onClick={handleStatusOpenClick}>
-						Filter by status <ColoredArrow size="1rem" />
-					</button>
+				<StatusBtn onMouseLeave={handleStatusOpenQuit}>
+					<FilterBtn onClick={handleStatusOpenClick}>
+						Filter <ColoredArrow size="1rem" />
+					</FilterBtn>
 
 					{statusBtnOpen ? <ListStatus /> : <></>}
 				</StatusBtn>
@@ -36,103 +38,32 @@ function Navigation() {
 
 export default Navigation;
 
-//const statusList = ["Paid", "Pending", "Draft"];
-const statusList = [
-	{statusName: "paid", statusValue: false},
-	{statusName: "pending", statusValue: false},
-	{statusName: "draft", statusValue: false},
-]
-
 const ListStatusComponent = ({ className }) => {
+	const [statusList, handleChangeStatusList] = useContext(StatusListContext);
+
 	return (
 		<div className={className}>
-			{statusList.map((status) => {
+			{statusList.map((status, index) => {
 				return (
-					<Checkbox value={status.statusValue}>{status.statusName}</Checkbox>
+					<CheckBox
+						index={index}
+						key={status.statusName}
+						status={status}
+					/>
 				);
 			})}
 		</div>
 	);
 };
 
-const CheckboxComponent = ({className, children}) => {
-	return (
-			<label className={className}>
-				<input type="checkbox" /> {children}
-				<span></span>
-			</label>
-	);
-}
-
-
-const Checkbox = styled(CheckboxComponent)`
-	display: block;
-	position: relative;
-	padding-left: 35px;
-	margin-bottom: 12px;
-	cursor: pointer;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	font-style: normal;
-font-weight: 700;
-font-size: 14px;
-line-height: 15px;
-
-	input{
-		position: absolute;
-		opacity: 0;
-		cursor: pointer;
-		height: 0;
-		width: 0;
-	}
-
-	span{
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 16px;
-		width: 16px;
-		background-color: #DFE3FA;
-		border-radius: 2px;
-	}
-
-	&:hover input ~ span{
-		border:1px solid #7C5DFA
-	}
-
-	input:checked ~ span {
-		background-color: #7C5DFA;
-	  }
-
-	span:after {
-		content: "";
-		position: absolute;
-		display: none;
-	  }
-
-	input:checked ~ span:after {
-		display: block;
-	  }
-
-	span:after {
-		left: 5px;
-		top: 0px;
-		width: 5px;
-		height: 10px;
-		border: solid white;
-		border-width: 0 2px 2px 0;
-		-webkit-transform: rotate(45deg);
-		-ms-transform: rotate(45deg);
-		transform: rotate(45deg);
-	  }
-`
+const FilterBtn = styled.button`
+	display: flex;
+`;
 
 const ListStatus = styled(ListStatusComponent)`
 	display: flex;
 	flex-direction: column;
-	gap:1em;
+	gap: 1em;
 	align-items: start;
 	background-color: white;
 	box-shadow: 0px 10px 20px rgba(72, 84, 159, 0.25);
@@ -168,8 +99,7 @@ const StatusBtn = styled.div`
 const Nav = styled.nav`
 	display: flex;
 	justify-content: space-between;
-	align-items:center;
-	margin:0 24px;
+	align-items: center;
 `;
 
 const Wrapper = styled.div`
