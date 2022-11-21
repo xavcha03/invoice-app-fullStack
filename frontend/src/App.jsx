@@ -23,6 +23,7 @@ function App() {
 	return (
 		<>
 			<GlobalStyle />
+			
 			<StatusListContext.Provider
 				value={[statusList, handleChangeStatusList.bind(this)]}
 			>
