@@ -23,7 +23,7 @@ function App() {
 	return (
 		<>
 			<GlobalStyle />
-			
+
 			<StatusListContext.Provider
 				value={[statusList, handleChangeStatusList.bind(this)]}
 			>
@@ -41,6 +41,8 @@ export default App;
 
 const Container = styled.section`
 	margin: 32px 24px;
+	display: flex;
+	justify-content: center;
 `;
 
 const GlobalStyle = createGlobalStyle`
